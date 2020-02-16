@@ -5,11 +5,11 @@
 let
   cargoNix = callPackage ./Cargo.nix {
     defaultCrateOverrides = pkgs.defaultCrateOverrides // {
-      git2 = attrs: {
-        buildInputs = [ pkgs.openssl ];
-      };
+      # git2 = attrs: {
+      #   buildInputs = [ pkgs.openssl ];
+      # };
       libgit2-sys = attrs: {
-        buildInputs = [ pkgs.openssl pkgs.cacert ];
+        buildInputs = [ pkgs.openssl pkgs.cacert pkgs.pkg-config ];
       };
     };
   };
