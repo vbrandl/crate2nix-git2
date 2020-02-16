@@ -9,7 +9,22 @@ let
       #   buildInputs = [ pkgs.openssl ];
       # };
       libgit2-sys = attrs: {
-        buildInputs = [ pkgs.openssl pkgs.cacert pkgs.pkg-config ];
+        features = [
+          "default"
+          "https"
+          # "vendored-openssl"
+        ];
+        # propagatedBuildInputs = [
+        #   pkgs.openssl
+        # ];
+        buildInputs = [
+          pkgs.openssl
+          # pkgs.cacert
+          pkgs.pkg-config
+          pkgs.libgit2
+          pkgs.zlib
+          pkgs.curl
+        ];
       };
     };
   };
@@ -20,8 +35,15 @@ pkgs.symlinkJoin {
   name = foo.name;
   version = foo.crateVersion;
   paths = [ foo ];
+  buildInputs = [
+    pkgs.git
+    pkgs.libgit2
+    pkgs.zlib
+    pkgs.cacert
+    pkgs.curl
+  ];
 
   postBuild = ''
-    rm -rf $out/bin/foo.d
+    rm -rf $out/bin/crate2nix_git2.d
   '';
 }
